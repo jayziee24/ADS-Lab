@@ -1,72 +1,68 @@
-class BinarySearchTree {
+class Node {
+    int key;
+    Node left, right;
 
-    class Node {
-        int key;
-        Node left, right;
-
-        public Node(int item) {
-            key = item;
-            left = right = null;
-        }
+    public Node(int item) {
+        key = item;
+        left = right = null;
     }
+}
 
+class BinarySearchTree {
     Node root;
 
     BinarySearchTree() {
         root = null;
     }
 
-    // Insert a key into the BST
     void insert(int key) {
-        root = insertRec(root, key);
+        root = insert(root, key);
     }
 
-    Node insertRec(Node root, int key) {
+    Node insert(Node root, int key) {
         if (root == null) {
             root = new Node(key);
             return root;
         }
 
         if (key < root.key) {
-            root.left = insertRec(root.left, key);
+            root.left = insert(root.left, key);
         } else if (key > root.key) {
-            root.right = insertRec(root.right, key);
+            root.right = insert(root.right, key);
         }
 
         return root;
     }
 
-    // Search a key in the BST
     boolean search(int key) {
-        return searchRec(root, key) != null;
+        return search(root, key) != null;
     }
 
-    Node searchRec(Node root, int key) {
+    Node search(Node root, int key) {
         if (root == null || root.key == key) {
             return root;
         }
 
         if (root.key > key) {
-            return searchRec(root.left, key);
+            return search(root.left, key);
         }
 
-        return searchRec(root.right, key);
+        return search(root.right, key);
     }
 
-    // Delete a key from the BST
     void delete(int key) {
-        root = deleteRec(root, key);
+        root = delete(root, key);
     }
 
-    Node deleteRec(Node root, int key) {
+    Node delete(Node root, int key) {
         if (root == null) {
             return root;
         }
 
         if (key < root.key) {
-            root.left = deleteRec(root.left, key);
+            root.left = delete(root.left, key);
         } else if (key > root.key) {
-            root.right = deleteRec(root.right, key);
+            root.right = delete(root.right, key);
         } else {
             if (root.left == null) {
                 return root.right;
@@ -75,8 +71,7 @@ class BinarySearchTree {
             }
 
             root.key = minValue(root.right);
-
-            root.right = deleteRec(root.right, root.key);
+            root.right = delete(root.right, root.key);
         }
 
         return root;
@@ -91,16 +86,15 @@ class BinarySearchTree {
         return minValue;
     }
 
-    // Print the BST in-order
     void inorder() {
-        inorderRec(root);
+        inorder(root);
     }
 
-    void inorderRec(Node root) {
+    void inorder(Node root) {
         if (root != null) {
-            inorderRec(root.left);
+            inorder(root.left);
             System.out.print(root.key + " ");
-            inorderRec(root.right);
+            inorder(root.right);
         }
     }
 
